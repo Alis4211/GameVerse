@@ -71,7 +71,7 @@ export function SimonsSequence({ onBack }: Props) {
     setSequence([]);
     setPlayerIndex(0);
     setActiveButton(null);
-    nextRound([]);
+    // Removed nextRound([]) so that the useEffect handles the first color properly!
   };
 
   const handleGameOver = useCallback(() => {
@@ -85,6 +85,9 @@ export function SimonsSequence({ onBack }: Props) {
     if (isPlayingSequence || gameState !== 'playing') return;
 
     setActiveButton(index);
+    const freqs = [261.63, 329.63, 392.00, 523.25];
+    soundManager.playBeep(freqs[index], 'sine', 0.2, 0.1);
+
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => setActiveButton(null), 200);
 
