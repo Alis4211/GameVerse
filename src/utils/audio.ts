@@ -68,30 +68,35 @@ class SoundManager {
     let duration = 0.3;
     let volume = 0.05;
 
+    // Use upbeat, happy, and energetic arcade melodies (Major scales)
     if (theme === 'action') {
-      notes = [130.81, 130.81, 155.56, 130.81, 196.00, 174.61]; 
-      intervalMs = 250;
-      waveType = 'triangle';
-      duration = 0.2;
-      volume = 0.08;
+      // Energetic, fast-paced arcade action (C Major pentatonic, fast)
+      notes = [261.63, 329.63, 392.00, 523.25, 392.00, 329.63, 392.00, 523.25]; 
+      intervalMs = 150;
+      waveType = 'square';
+      duration = 0.1;
+      volume = 0.04;
     } else if (theme === 'ambient') {
-      notes = [261.63, 329.63, 392.00, 523.25]; 
-      intervalMs = 450;
+      // Bright, sparkly, interesting (F Major 7 arpeggio)
+      notes = [349.23, 440.00, 523.25, 659.25, 523.25, 440.00]; 
+      intervalMs = 200;
       waveType = 'sine';
-      duration = 0.6;
+      duration = 0.4;
       volume = 0.06;
     } else if (theme === 'tense') {
-      notes = [65.41, 69.30]; 
-      intervalMs = 800;
+      // Rhythmic, driving, exciting (Not depressing! Fast repeating bassline)
+      notes = [130.81, 130.81, 196.00, 130.81, 261.63, 196.00]; 
+      intervalMs = 180;
       waveType = 'triangle';
-      duration = 0.6;
+      duration = 0.15;
       volume = 0.08;
     } else if (theme === 'hub') {
-      notes = [196.00, 261.63, 329.63, 261.63, 392.00, 329.63]; // Happy/chill arpeggio
-      intervalMs = 350;
+      // Happy, bouncy menu music (C Major chord bouncing)
+      notes = [261.63, 392.00, 523.25, 392.00, 329.63, 392.00]; 
+      intervalMs = 200;
       waveType = 'sine';
-      duration = 0.5;
-      volume = 0.04;
+      duration = 0.3;
+      volume = 0.05;
     }
 
     let step = 0;

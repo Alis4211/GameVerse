@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { GameWrapper } from '../components/GameWrapper';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import { soundManager } from '../utils/audio';
 
 const COLORS = ['bg-red-500', 'bg-blue-500', 'bg-green-500', 'bg-yellow-400'];
 const ACTIVE_COLORS = ['bg-red-300', 'bg-blue-300', 'bg-green-300', 'bg-yellow-200'];
@@ -31,7 +32,9 @@ export function SimonsSequence({ onBack }: Props) {
       if (gameState !== 'playing') break; // Handle unmount/gameover during playback
       
       setActiveButton(currentSeq[i]);
-      // Play sound here if we had sounds
+      // Play a distinct note for each color
+      const freqs = [261.63, 329.63, 392.00, 523.25]; // C, E, G, C(high)
+      soundManager.playBeep(freqs[currentSeq[i]], 'sine', 0.4, 0.1);
       
       await new Promise(resolve => setTimeout(resolve, 500));
       setActiveButton(null);
@@ -49,7 +52,7 @@ export function SimonsSequence({ onBack }: Props) {
       // Delay the first flash slightly so the player is ready
       setTimeout(() => {
         playSequence([newColor]);
-      }, 1000);
+      }, 500);
     }
   }, [gameState, sequence.length, playSequence]);
 
