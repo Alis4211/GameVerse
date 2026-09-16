@@ -37,9 +37,21 @@ export function SimonsSequence({ onBack }: Props) {
       setActiveButton(null);
       await new Promise(resolve => setTimeout(resolve, 200));
     }
-    
     setIsPlayingSequence(false);
   }, [gameState]);
+
+  useEffect(() => {
+    // Start a new sequence when moving to playing state or leveling up
+    if (gameState === 'playing' && sequence.length === 0) {
+      const newColor = Math.floor(Math.random() * 4);
+      setSequence([newColor]);
+      
+      // Delay the first flash slightly so the player is ready
+      setTimeout(() => {
+        playSequence([newColor]);
+      }, 1000);
+    }
+  }, [gameState, sequence.length, playSequence]);
 
   const nextRound = useCallback((currentSeq: number[]) => {
     const nextColor = Math.floor(Math.random() * 4);
