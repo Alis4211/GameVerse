@@ -12,6 +12,7 @@ interface GameWrapperProps {
   gameState: 'menu' | 'playing' | 'gameover';
   score: number;
   highScore: number;
+  encouragementMode?: 'discrete' | 'milestone' | 'none';
   onStart: () => void;
   onRestart: () => void;
   onBackToHub: () => void;
@@ -27,6 +28,7 @@ export function GameWrapper({
   gameState,
   score,
   highScore,
+  encouragementMode = 'discrete',
   onStart,
   onRestart,
   onBackToHub,
@@ -40,13 +42,26 @@ export function GameWrapper({
   const [encouragement, setEncouragement] = useState<{ id: number, text: string } | null>(null);
 
   useEffect(() => {
-    if (gameState === 'playing' && score > prevScore && score > 0) {
-      const words = ["Great!", "Awesome!", "Perfect!", "Nice!", "Good!", "Super!", "Wow!", "Excellent!", "Brilliant!"];
-      const word = words[Math.floor(Math.random() * words.length)];
-      setEncouragement({ id: Date.now(), text: word });
+    if (gameState === 'playing' && score > prevScore && score > 0 && encouragementMode !== 'none') {
+      let shouldShow = false;
+      
+      if (encouragementMode === 'discrete') {
+        shouldShow = true;
+      } else if (encouragementMode === 'milestone') {
+        // Only show every 500 points for continuous scoring games
+        if (Math.floor(score / 500) > Math.floor(prevScore / 500)) {
+          shouldShow = true;
+        }
+      }
+
+      if (shouldShow) {
+        const words = ["Great!", "Awesome!", "Perfect!", "Nice!", "Good!", "Super!", "Wow!", "Excellent!", "Brilliant!"];
+        const word = words[Math.floor(Math.random() * words.length)];
+        setEncouragement({ id: Date.now(), text: word });
+      }
     }
     setPrevScore(score);
-  }, [score, prevScore, gameState]);
+  }, [score, prevScore, gameState, encouragementMode]);
 
   // Clear encouragement when game ends
   useEffect(() => {

@@ -154,6 +154,7 @@ export function OrbitalDodge({ onBack }: Props) {
       gameState={gameState}
       score={score}
       highScore={highScore}
+      encouragementMode="milestone"
       onStart={startGame}
       onRestart={startGame}
       onBackToHub={onBack}

@@ -46,6 +46,7 @@ export function SimonsSequence({ onBack }: Props) {
   useEffect(() => {
     // Start a new sequence when moving to playing state or leveling up
     if (gameState === 'playing' && sequence.length === 0) {
+      setIsPlayingSequence(true); // immediately show WATCH text
       const newColor = Math.floor(Math.random() * 4);
       setSequence([newColor]);
       
